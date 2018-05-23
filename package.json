@@ -1,0 +1,23 @@
+{
+  "name": "hostel",
+  "version": "1.0.0",
+  "description": "Hostel app",
+  "engines": {
+    "node": "8.9.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "fcm-node": "^1.2.1",
+    "mysql": "^2.15.0",
+    "node-onesignal": "^0.3.1",
+    "nodemon": "^1.17.4"
+    
+  }
+}

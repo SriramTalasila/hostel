@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hostel Food</title>
+    <link rel="icon" href="https://media.giphy.com/media/3o7aDcqKQhNkAKCoc8/giphy_s.gif" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="jquery/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="https://www.gstatic.com/firebasejs/5.0.3/firebase.js"></script>
+    <script>
+
+    </script>
+    <style>
+        input {
+            width: 80%;
+        }
+
+        #od,
+        #adcurry {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Always shows a header, even in smaller screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title">Hostel Food</span>
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer"></div>
+                <!-- Navigation. We hide it in small screens. -->
+            </div>
+        </header>
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Hostel Food</span>
+            <nav class="mdl-navigation">
+                <a id="order" onClick="Displayd('#of');" class="mdl-navigation__link">Order food</a>
+                <a onClick="Displayd('#adcurry');" class="mdl-navigation__link">Add curries</a>
+                <a id="orderdetails" onClick="Displayd('#od');" class="mdl-navigation__link">Order Details</a>
+                <a id="lgout" class="mdl-navigation__link" href="">Logout</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                <!-- Your content goes here -->
+                <!-- For odering  -->
+                <div id="of" style="padding: 10%">
+                    <h3>Order food</h3>
+                    <p>Last Updated:</p>
+                    <p id="lstime"></p>
+                    <button id="notify">notify</button>
+                    <form id="frm" enctype='application/json'>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="number" name="rice15" id="rice15">
+                            <label class="mdl-textfield__label" for="rice15">Rice15</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="number" name="rice20" id="rice20">
+                            <label class="mdl-textfield__label" for="rice20">Rice20</label>
+                        </div>
+                        <br>
+                        <div id="curriesdiv">
+
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="number" name="sambar" id="sample3">
+                            <label class="mdl-textfield__label" for="sample3">Sambar</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="number" name="curd" id="sample4">
+                            <label class="mdl-textfield__label" for="sample4">curd </label>
+                        </div>
+                        <button style="float:right" id="place" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                            Submit
+                        </button>
+                    </form>
+                </div>
+                <div id="adcurry">
+                    <h4>Add Today curries</h4>
+                    <p>Don't Use spaces between curry names </p>
+                    <table id="tbUser" class="mdl-data-table">
+                        <thead>
+                            <tr>
+                                <th class="mdl-data-table__cell--non-numeric">Name</th>
+                                <th class="mdl-data-table__cell--non-numeric">Amount</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr class="item">
+                                <td class="mdl-data-table__cell--non-numeric ">
+                                    <input class="curry" type="text">
+                                </td>
+                                <td class="mdl-data-table__cell--non-numeric cost">
+                                    <input class="cost" type="number">
+                                </td>
+                                <td>
+                                    <button class="mdl-button mdl-js-button mdl-button--raised btnDelete">Delete</button>
+                                </td>
+                            </tr>
+                            <tr class="item">
+                                <td class="mdl-data-table__cell--non-numeric ">
+                                    <input class="curry" type="text">
+                                </td>
+                                <td class="mdl-data-table__cell--non-numeric cost">
+                                    <input class="cost" type="number">
+                                </td>
+                                <td>
+                                    <button class="mdl-button mdl-js-button mdl-button--raised btnDelete">Delete</button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                        <tfoot>
+                            <td>
+                                <button id="admore" class="mdl-button mdl-js-button mdl-button--raised">Add more</button>
+                            </td>
+                            <td></td>
+                            <td>
+                                <button id="adc" class="mdl-button mdl-js-button mdl-button--raised">submit</button>
+                            </td>
+                        </tfoot>
+                    </table>
+                </div>
+                <div style="padding:5%" id="od">
+                    <h3>Order details</h3>
+                    <div style="overflow-x:auto;">
+                        <table id="printTable" class="mdl-data-table">
+                            <thead>
+                                <tr id="addthead">
+                                </tr>
+                            </thead>
+                            <tbody id="addbody">
+                            </tbody>
+                            <tfoot id="addfoot">
+                            </tfoot>
+                        </table>
+                    </div>
+                    <br>
+                    <button onclick="myFunction()">Print this page</button>
+                </div>
+            </div>
+            <!-- login/signup dialog -->
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span style="color:black" class="close">&times;</span>
+                    <div id="log">
+                        <h4>Login</h4>
+                        <form>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text" id="username" />
+                                <label class="mdl-textfield__label" for="username">Username</label>
+                            </div>
+                            <br>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="password" id="userpass" />
+                                <label class="mdl-textfield__label" for="userpass">Password</label>
+                            </div>
+                            <br>
+                            <button id="login" class="mdl-button mdl-js-button ">
+                                Login
+                            </button>
+                            <a id="gts">Signup</a>
+                        </form>
+                    </div>
+                    <div id="sig">
+                        <form>
+                            <h4>Sign Up</h4>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text" id="rusername" />
+                                <label class="mdl-textfield__label" for="username">Username</label>
+                            </div>
+                            <br>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="password" id="ruserpass" />
+                                <label class="mdl-textfield__label" for="userpass">Password</label>
+                            </div>
+                            <br>
+                            <button id="signup" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                Signup
+                            </button>
+                            <a id="bk">
+                                <-back</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- modal End -->
+    </div>
+    </main>
+    </div>
+</body>
+<script>
+    var currd = '#of';
+    function Displayd(key) {
+        $(currd).css('display', 'none');
+        $(key).css('display', 'block');
+        $('.mdl-layout__drawer').removeClass('is-visible');
+        $('.mdl-layout__drawer').attr('aria-hidden', 'true');
+        $('.mdl-layout__obfuscator').removeClass('is-visible');
+        currd = key;
+    }
+    function myFunction() {
+        var divToPrint = document.getElementById("printTable");
+        newWin = window.open("");
+        newWin.document.write(divToPrint.outerHTML);
+        newWin.print();
+        newWin.close();
+    }
+</script>
+
+</html>
