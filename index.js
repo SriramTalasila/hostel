@@ -94,8 +94,16 @@ app.post('/login', function (req, res) {
 //add curries to data base
 app.post('/adcurries', function (req, res) {
     var data = req.body;
-    con.query('DELETE FROM `curries` WHERE 1');
-    con.query('DELETE FROM `lastupdated` WHERE 1');
+    con.query('DELETE FROM `curries` WHERE 1',function(err,result){
+        if(err){
+            console.log("error occured");
+        }
+    });
+    con.query('DELETE FROM `lastupdated` WHERE 1',function(err,result){
+        if(err){
+            console.log("error ocurred");
+        }
+    });
     var d = new Date();
     con.query("INSERT INTO `lastupdated`(`dt`) VALUES ('" + d + "')");
     var dt = [];
@@ -181,7 +189,11 @@ function sendFCMPush() {
 // send list of curries 
 app.get('/listofcurries', function (req, res) {
     con.query("SELECT * FROM `curries`", function (err, result) {
+        if(err){
+            console.log("error occured");
+        }
         var objs = [];
+
         for (var i = 0; i < result.length; i++) {
             objs.push({
                 curry: result[i].curry
@@ -249,6 +261,9 @@ var tdd;
 app.get("/colnames", function (req, res) {
     var columnnames = [];
     con.query('DESCRIBE todayorders', function (err, result) {
+        if(err){
+            console.log("err");
+        }
         console.log(result);
         for (i = 0; i < result.length; i++) {
             console.log(result[i].Field);
@@ -267,6 +282,9 @@ app.get("/colnames", function (req, res) {
 app.get('/tabledata', function (req, res) {
     con.query('select * from todayorders', function (err, result) {
         // console.log(result);
+        if(err){
+            console.log("err");
+        }
         var obj = []
         for (i = 0; i < result.length; i++) {
             obj.push(result[i]);
@@ -286,7 +304,9 @@ app.get("/total", function (req, res) {
     sql += "sum(" + tdd[tdd.length - 1] + ") from todayorders";
     console.log(sql);
     con.query(sql, function (err, result) {
-        
+        if(err){
+            console.log("err occured");
+        }
         console.log(result);
         var data = result[0];
         Object.keys(data).forEach(function (key) {
